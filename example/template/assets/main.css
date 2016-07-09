@@ -1,0 +1,13 @@
+body {
+  text-align: center;
+}
+
+div.content {
+  display: inline-block;
+  width: 50%;
+  text-align: left;
+}
+
+div.content a:hover, a:visited, a:link, a:active {
+  color: black;
+}

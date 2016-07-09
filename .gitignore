@@ -1,3 +1,6 @@
 node_modules
 npm-debug.log
-lib/
+/lib/*
+!/lib/utils
+/lib/utils/*
+!/lib/utils/async.js

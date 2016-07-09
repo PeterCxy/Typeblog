@@ -1,8 +1,14 @@
 {
   "title": "Typeblog",
   "description": "Thoughtcrime does not entail death, thoughtcrime IS death",
-  "url": "https://typeblog.net",
+  "url": "http://127.0.0.1:2333",
   "posts": [
+    "posts/hello6.md",
+    "posts/hello5.md",
+    "posts/hello4.md",
+    "posts/hello3.md",
+    "posts/hello2.md",
+    "posts/hello1.md",
     "posts/hello.md"
   ]
 }

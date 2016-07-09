@@ -1,0 +1,15 @@
+<h1>{{blog.title}}</h1>
+<div class="content">
+  <ul>
+  {{#each posts}}
+    <li><a href="/{{url}}">{{title}}</a></li>
+  {{/each}}
+  </ul>
+</div>
+<br/>
+{{#unless firstPage}}
+<a href="{{prevPage}}">Prev</a><br/>
+{{/unless}}
+{{#unless lastPage}}
+<a href="{{nextPage}}">Next</a><br/>
+{{/unless}}
