@@ -1,0 +1,33 @@
+{
+  "name": "typeblog",
+  "version": "1.0.0",
+  "description": "Yet another blogging platform (written initially for typeblog.net)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "coffee -o lib -c src",
+    "debug": "coffee -o lib -c src && cd example && ../bin/typeblog"
+  },
+  "bin": {
+    "typeblog": "./bin/typeblog"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeterCxy/Typeblog.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "PeterCxy",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/PeterCxy/Typeblog/issues"
+  },
+  "homepage": "https://github.com/PeterCxy/Typeblog#readme",
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "coffee-script": "^1.10.0",
+    "express": "^4.14.0",
+    "handlebars": "^4.0.5"
+  }
+}
