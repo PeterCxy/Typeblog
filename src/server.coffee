@@ -10,6 +10,7 @@ posts = {}
 start = ->
   return if not checkConfig configuration.config
   app = express()
+  app.use '/assets', express.static 'template/assets'
   app.get '/*', (req, res) ->
     postName = req.params[0]
     if posts[postName]?
