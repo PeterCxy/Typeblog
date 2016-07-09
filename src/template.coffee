@@ -55,6 +55,7 @@ renderTemplate = (fn, context) ->
       Object.keys(values).forEach (id) ->
         ret = ret.replace id, values[id]
         ret = ret.replace handlebars.Utils.escapeExpression(id), handlebars.Utils.escapeExpression(values[id])
+      # TODO: Allow plugins to modify rednering results
       resolve ret
 
 
