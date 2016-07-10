@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>{{blog.title}}</title>
+  <title>{{#if isHome}}{{blog.title}}{{else}}{{page.post.title}}{{/if}}</title>
   <link rel="stylesheet" type="text/css" href="{{asset "main.css"}}"/>
 </head>
 <body>

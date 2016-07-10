@@ -2,6 +2,7 @@
 handlebars = require 'handlebars'
 async = require './utils/async' # From express-hbs
 md5 = require 'md5-file'
+moment = require 'moment'
 configuration = require './utils/configuration'
 {Promise, fs} = require './utils/dependencies'
 
@@ -18,6 +19,9 @@ handlebars.registerAsyncHelper 'asset', (name, cb) ->
   md5 "./template/assets/#{name}", (err, hash) ->
     throw err if err
     cb new handlebars.SafeString "/assets/#{name}?v=#{hash[0..7]}"
+
+handlebars.registerHelper 'date', (date, format) ->
+  return moment(date).format format
 
 template = {}
 
@@ -59,11 +63,12 @@ renderTemplate = (fn, context) ->
       resolve ret
 
 
-renderDefault = (content, isHome = false) ->
+renderDefault = (content, pageContext, isHome = false) ->
   context =
     blog: buildBlogContext(isHome)
     arguments: configuration.config.template_arguments
     content: content
+    page: pageContext
 
   renderTemplate template.default, context
 
@@ -84,8 +89,17 @@ renderIndex = (posts, page = 0) ->
     context.lastPage = true
   context.posts = posts[start..end]
   renderTemplate template.index, context
-    .then (index) -> renderDefault index, (page is 0)
+    .then (index) -> renderDefault index, context, (page is 0)
+
+renderPost = (post) ->
+  context =
+    blog: buildBlogContext false
+    arguments: configuration.config.template_arguments
+    post: post
+  renderTemplate template[post.template], context
+    .then (content) -> renderDefault content, context, false
 
 module.exports =
   reload: reload
   renderIndex: renderIndex
+  renderPost: renderPost

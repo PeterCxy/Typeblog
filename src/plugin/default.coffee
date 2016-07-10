@@ -33,6 +33,8 @@ class DefaultPlugin extends Plugin
         data.parser = 'Default'
       if not data.url?
         data.url = encodeURIComponent data.title
+      if not data.template?
+        data.template = "post"
       return data
     .then (data) ->
       data.date = new Date data.date

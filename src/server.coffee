@@ -1,7 +1,7 @@
 {Promise, fs} = require './utils/dependencies'
 {callPluginMethod, loadPost, parsePost, transformExpressApp} = require './plugin/plugin'
 express = require 'express'
-{renderIndex} = require './template'
+{renderIndex, renderPost} = require './template'
 configuration = require './utils/configuration'
 configuration.on 'change', (config) ->
   checkConfig config
@@ -25,10 +25,10 @@ start = ->
   app.get '/*', (req, res) ->
     postName = req.params[0]
     if posts[postName]?
-      res.send posts[postName].content # TODO: render the post
+      renderPost posts[postName]
+        .then (content) -> res.send content
     else
       res.sendStatus 404
-    res.end()
 
   transformExpressApp app
 
