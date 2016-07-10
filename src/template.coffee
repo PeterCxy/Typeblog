@@ -28,6 +28,12 @@ handlebars.registerHelper 'date', (date, format) ->
 handlebars.registerHelper 'tag', (name) ->
   return "/tag/#{name}"
 
+handlebasrs.registerHelper 'shorten', (content, len) ->
+  if len >= content.length
+    return content
+  else
+    return content[0..len]
+
 chokidar.watch './template'
   .on 'all', -> reload()
 
