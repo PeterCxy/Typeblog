@@ -6,3 +6,5 @@ npm-debug.log
 !/lib/utils/async.js
 plugins/markdown/index.js
 plugins/highlight/index.js
+converter/from.json
+converter/out
