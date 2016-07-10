@@ -1,9 +1,12 @@
 {fs} = require './dependencies'
 {EventEmitter} = require 'events'
+chokidar = require 'chokidar'
 
 class Configuration extends EventEmitter
   constructor: ->
     @config = {}
+    chokidar.watch './config.json'
+      .on 'change', => @reload()
 
   reload: ->
     fs.readFileAsync './config.json'

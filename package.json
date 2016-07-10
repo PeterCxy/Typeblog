@@ -26,6 +26,7 @@
   "homepage": "https://github.com/PeterCxy/Typeblog#readme",
   "dependencies": {
     "bluebird": "^3.4.1",
+    "chokidar": "^1.6.0",
     "coffee-script": "^1.10.0",
     "express": "^4.14.0",
     "handlebars": "^4.0.5",
