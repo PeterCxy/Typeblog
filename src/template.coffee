@@ -3,6 +3,7 @@ handlebars = require 'handlebars'
 async = require './utils/async' # From express-hbs
 md5 = require 'md5-file'
 moment = require 'moment'
+chokidar = require 'chokidar'
 configuration = require './utils/configuration'
 {Promise, fs} = require './utils/dependencies'
 {transformRenderResult} = require './plugin/plugin'
@@ -23,6 +24,9 @@ handlebars.registerAsyncHelper 'asset', (name, cb) ->
 
 handlebars.registerHelper 'date', (date, format) ->
   return moment(date).format format
+
+chokidar.watch './template'
+  .on 'all', -> reload()
 
 template = {}
 
