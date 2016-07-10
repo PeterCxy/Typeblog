@@ -44,6 +44,9 @@ start = ->
   transformExpressApp app
 
   app.get '/*', (req, res) ->
+    if not req.path.endsWith '/'
+      res.redirect 301, req.path + '/'
+      return
     postName = req.params[0].replace(/\/$/, '')
     if posts[postName]?
       renderPost posts[postName]
