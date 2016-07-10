@@ -11,6 +11,12 @@ class DefaultPlugin extends Plugin
       # ???
     ]
 
+  transformRenderResult: (content) ->
+    # Do nothing by default
+    return [true, Promise.try ->
+      content
+    ]
+
   loadPost: (file) ->
     promise = fs.readFileAsync file
       .then (buf) -> buf.toString()

@@ -5,6 +5,7 @@ md5 = require 'md5-file'
 moment = require 'moment'
 configuration = require './utils/configuration'
 {Promise, fs} = require './utils/dependencies'
+{transformRenderResult} = require './plugin/plugin'
 
 # Hack from express-hbs
 handlebars.registerAsyncHelper = (name, fn) ->
@@ -59,7 +60,6 @@ renderTemplate = (fn, context) ->
       Object.keys(values).forEach (id) ->
         ret = ret.replace id, values[id]
         ret = ret.replace handlebars.Utils.escapeExpression(id), handlebars.Utils.escapeExpression(values[id])
-      # TODO: Allow plugins to modify rednering results
       resolve ret
 
 renderDefault = (content, pageContext, isHome = false) ->
@@ -70,6 +70,7 @@ renderDefault = (content, pageContext, isHome = false) ->
     page: pageContext
 
   renderTemplate template.default, context
+    .then transformRenderResult
 
 renderIndex = (posts, page = 0) ->
   context =

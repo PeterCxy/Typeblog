@@ -27,6 +27,8 @@ parsePost = (content) ->
   callPluginMethod 'parsePost', arguments
 transformExpressApp = (app) ->
   callPluginMethod 'transformExpressApp', arguments
+transformRenderResult = (content) ->
+  callPluginMethod 'transformRenderResult', arguments
 
 module.exports =
   registerPlugin: registerPlugin
@@ -34,6 +36,7 @@ module.exports =
   loadPost: loadPost
   parsePost: parsePost
   transformExpressApp: transformExpressApp
+  transformRenderResult: transformRenderResult
   Plugin: Plugin
   dependencies: require '../utils/dependencies'
 
