@@ -62,7 +62,6 @@ renderTemplate = (fn, context) ->
       # TODO: Allow plugins to modify rednering results
       resolve ret
 
-
 renderDefault = (content, pageContext, isHome = false) ->
   context =
     blog: buildBlogContext(isHome)
@@ -80,6 +79,7 @@ renderIndex = (posts, page = 0) ->
     lastPage: false
     nextPage: "/page/#{page + 1}"
     prevPage: if page == 1 then "/" else "/page/#{page - 1}"
+    curPage: page
   totalPages = Math.floor(posts.length / configuration.config.posts_per_page) + 1
   return null if page >= totalPages
   start = page * configuration.config.posts_per_page
