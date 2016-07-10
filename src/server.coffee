@@ -44,7 +44,7 @@ start = ->
   transformExpressApp app
 
   app.get '/*', (req, res) ->
-    postName = req.params[0]
+    postName = req.params[0].replace(/\/$/, '')
     if posts[postName]?
       renderPost posts[postName]
         .then (content) -> res.send content
