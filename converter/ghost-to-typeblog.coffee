@@ -13,7 +13,7 @@ posts.forEach (post) ->
   result.parser = "Markdown"
 
   content = """
-```
+```json
 #{JSON.stringify result, null, 2}
 ```
 
