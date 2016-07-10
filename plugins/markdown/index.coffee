@@ -5,7 +5,7 @@ marked = require 'marked'
 marked.setOptions highlight: (code, lang, cb) ->
   callPluginMethod 'highlight', [code, lang]
     .then (result) -> cb null, result
-    .catch (err) -> cb err, result
+    .catch (err) -> cb null, code
 
 class MarkdownPlugin extends Plugin
   parseContentMarkdown: (content) ->
