@@ -2,6 +2,7 @@
 striptags = require 'striptags'
 {loadPlugins, callPluginMethod, loadPost, parsePost, transformExpressApp} = require './plugin/plugin'
 express = require 'express'
+RSS = require 'rss'
 {renderIndex, renderPost} = require './template'
 configuration = require './utils/configuration'
 configuration.on 'change', (config) ->
@@ -10,6 +11,7 @@ configuration.on 'change', (config) ->
 posts = {}
 postsArr = []
 postsByTags = {}
+feed = null
 
 start = ->
   return if not checkConfig configuration.config
@@ -39,6 +41,12 @@ start = ->
         res.sendStatus 404
       else
         promise.then (page) -> res.send page
+  app.get '/rss/', (req, res) ->
+    if feed?
+      res.set('Content-Type', 'application/rss+xml')
+      res.send feed.xml indent: true
+    else
+      res.sendStatus 404
 
   # Allow transforming before we set up the wildcard rule
   transformExpressApp app
@@ -103,6 +111,22 @@ reloadPosts = ->
     posts = newPosts
     postsArr = (post for _, post of posts when not post.hide)
     postsByTags = newPostsByTags
+
+    feed = new RSS
+      title: configuration.config.title
+      description: configuration.config.description
+      site_url: configuration.config.url
+      feed_url: configuration.config.url + "/rss/"
+
+    arr = postsArr
+    if arr.length > 5
+      arr = arr[0..4]
+    arr.forEach (it) ->
+      feed.item
+        title: it.title
+        description: it.content
+        date: it.date
+        url: configuration.config.url + "/" + it.url
   .catch (e) ->
     console.error e
     process.exit 1
