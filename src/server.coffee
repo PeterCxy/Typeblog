@@ -1,4 +1,5 @@
 {Promise, fs} = require './utils/dependencies'
+striptags = require 'striptags'
 {loadPlugins, callPluginMethod, loadPost, parsePost, transformExpressApp} = require './plugin/plugin'
 express = require 'express'
 {renderIndex, renderPost} = require './template'
@@ -84,6 +85,7 @@ reloadPosts = ->
     callPluginMethod "parseContent#{data.parser}", [data.content]
       .then (content) ->
         data.content = content
+        data.contentStripped = striptags content
         return data
   .each (item) ->
     newPosts[item.url] = item
