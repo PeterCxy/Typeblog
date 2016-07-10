@@ -14,7 +14,7 @@ posts.forEach (post) ->
 
   content = """
 ```
-#{JSON.stringify result}
+#{JSON.stringify result, null, 2}
 ```
 
 #{post.markdown}
