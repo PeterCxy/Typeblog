@@ -94,7 +94,9 @@ renderIndex = (posts, page = 0, baseURL = "/") ->
     nextPage: "#{baseURL}page/#{page + 1}"
     prevPage: if page == 1 then "/" else "/page/#{page - 1}"
     curPage: page
-  totalPages = Math.floor(posts.length / configuration.config.posts_per_page) + 1
+  totalPages = Math.floor(posts.length / configuration.config.posts_per_page)
+  if totalPages * configuration.config.posts_per_page != posts.length
+    totalPages += 1
   return null if page >= totalPages
   start = page * configuration.config.posts_per_page
   end = (page + 1) * configuration.config.posts_per_page - 1
