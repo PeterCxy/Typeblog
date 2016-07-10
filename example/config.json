@@ -3,7 +3,8 @@
   "description": "Thoughtcrime does not entail death, thoughtcrime IS death",
   "url": "http://127.0.0.1:2333",
   "plugins": [
-    "plugins/plugin-example"
+    "plugins/plugin-example",
+    "npm://typeblog-markdown"
   ],
   "posts": [
     "posts/hello6.md",

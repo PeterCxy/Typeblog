@@ -4,3 +4,4 @@ npm-debug.log
 !/lib/utils
 /lib/utils/*
 !/lib/utils/async.js
+plugins/markdown/index.js

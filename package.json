@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "coffee -o lib -c src",
-    "debug": "coffee -o lib -c src && cd example && ../bin/typeblog"
+    "debug": "coffee -o lib -c src && cd example && rm -rf node_modules && npm install && NODE_PATH=./node_modules ../bin/typeblog"
   },
   "bin": {
     "typeblog": "./bin/typeblog"
