@@ -8,6 +8,7 @@ configuration.on 'change', (config) ->
 
 posts = {}
 postsArr = []
+postsByTags = {}
 
 start = ->
   return if not checkConfig configuration.config
@@ -22,6 +23,21 @@ start = ->
       res.sendStatus 404
     else
       promise.then (page) -> res.send page
+  app.get '/tag/:name', (req, res) ->
+    if not postsByTags[req.params.name]?
+      res.sendStatus 404
+    else
+      renderIndex postsByTags[req.params.name], 0, "/tag/#{req.params.name}/"
+        .then (index) -> res.send index
+  app.get '/tag/:name/page/:id(\\d+)', (req, res) ->
+    if not postsByTags[req.params.name]?
+      res.sendStatus 404
+    else
+      promise = renderIndex postsByTags[req.params.name], parseInt req.params.id, "/tag/#{req.params.name}/"
+      if not promise?
+        res.sendStatus 404
+      else
+        promise.then (page) -> res.send page
 
   # Allow transforming before we set up the wildcard rule
   transformExpressApp app
@@ -60,6 +76,7 @@ checkConfig = (config) ->
 
 reloadPosts = ->
   newPosts = {}
+  newPostsByTags = {}
   Promise.map configuration.config.posts, (item) ->
     loadPost item
   .map parsePost
@@ -70,10 +87,17 @@ reloadPosts = ->
         return data
   .each (item) ->
     newPosts[item.url] = item
+
+    if item.tags? and item.tags.length > 0
+      item.tags.forEach (it) ->
+        if not newPostsByTags[it]?
+          newPostsByTags[it] = []
+        newPostsByTags[it].push item
   .all()
   .then ->
     posts = newPosts
     postsArr = (post for _, post of posts)
+    postsByTags = newPostsByTags
   .catch (e) ->
     console.error e
     process.exit 1

@@ -25,6 +25,9 @@ handlebars.registerAsyncHelper 'asset', (name, cb) ->
 handlebars.registerHelper 'date', (date, format) ->
   return moment(date).format format
 
+handlebars.registerHelper 'tag', (name) ->
+  return "/tag/#{name}"
+
 chokidar.watch './template'
   .on 'all', -> reload()
 
@@ -76,13 +79,13 @@ renderDefault = (content, pageContext, isHome = false) ->
   renderTemplate template.default, context
     .then transformRenderResult
 
-renderIndex = (posts, page = 0) ->
+renderIndex = (posts, page = 0, baseURL = "/") ->
   context =
     blog: buildBlogContext(page is 0)
     arguments: configuration.config.template_arguments
     firstPage: page is 0
     lastPage: false
-    nextPage: "/page/#{page + 1}"
+    nextPage: "#{baseURL}page/#{page + 1}"
     prevPage: if page == 1 then "/" else "/page/#{page - 1}"
     curPage: page
   totalPages = Math.floor(posts.length / configuration.config.posts_per_page) + 1

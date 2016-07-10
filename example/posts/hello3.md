@@ -2,7 +2,8 @@
 {
   "title": "Hello, 世界",
   "url": "test/hello-world-3",
-  "date": "2016-07-09"
+  "date": "2016-07-09",
+  "tags": ["hello"]
 }
 ```
 

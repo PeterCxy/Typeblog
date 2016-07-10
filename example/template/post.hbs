@@ -1,5 +1,8 @@
 <h1>{{blog.title}}</h1>
 <div class="content">
   <p>{{date post.date "MMMM Do YYYY"}}</p>
+  {{#if post.tags}}
+  <p>{{#each post.tags}}<a href="{{tag this}}">{{this}}</a>{{/each}}</p>
+  {{/if}}
   <p>{{{post.content}}}</p>
 </div>

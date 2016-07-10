@@ -3,7 +3,8 @@
   "title": "Hello, 世界",
   "url": "test/hello-world-1",
   "date": "2016-07-09",
-  "parser": "Markdown"
+  "parser": "Markdown",
+  "tags": ["hello"]
 }
 ```
 
