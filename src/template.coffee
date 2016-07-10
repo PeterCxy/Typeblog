@@ -28,7 +28,7 @@ handlebars.registerHelper 'date', (date, format) ->
 handlebars.registerHelper 'tag', (name) ->
   return "/tag/#{name}"
 
-handlebasrs.registerHelper 'shorten', (content, len) ->
+handlebars.registerHelper 'shorten', (content, len) ->
   if len >= content.length
     return content
   else
