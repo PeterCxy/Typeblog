@@ -98,7 +98,7 @@ reloadPosts = ->
   .all()
   .then ->
     posts = newPosts
-    postsArr = (post for _, post of posts)
+    postsArr = (post if not post.hide for _, post of posts)
     postsByTags = newPostsByTags
   .catch (e) ->
     console.error e
