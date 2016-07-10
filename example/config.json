@@ -1,9 +1,11 @@
 {
+  "version": "1",
   "title": "Typeblog",
   "description": "Thoughtcrime does not entail death, thoughtcrime IS death",
   "url": "http://127.0.0.1:2333",
   "plugins": [
     "plugins/plugin-example",
+    "npm://typeblog-highlight",
     "npm://typeblog-markdown"
   ],
   "posts": [

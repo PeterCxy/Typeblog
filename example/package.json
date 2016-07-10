@@ -9,6 +9,7 @@
   "author": "",
   "license": "WTFPL",
   "dependencies": {
-    "typeblog-markdown": "file:../plugins/markdown"
+    "typeblog-markdown": "file:../plugins/markdown",
+    "typeblog-highlight": "file:../plugins/highlight"
   }
 }
