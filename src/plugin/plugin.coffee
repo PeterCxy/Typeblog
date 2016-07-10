@@ -47,5 +47,6 @@ module.exports =
   transformRenderResult: transformRenderResult
   Plugin: Plugin
   dependencies: require '../utils/dependencies'
+  configuration: require '../utils/configuration'
 
 defaultPlugin = require './default'
