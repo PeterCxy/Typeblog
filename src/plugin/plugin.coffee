@@ -13,6 +13,13 @@ class Plugin
 plugins = []
 registerPlugin = (plugin) ->
   plugins.push plugin
+loadPlugins = (config) ->
+  return if not config.plugins?
+  config.plugins.forEach (it) ->
+    if it.startsWith 'npm://'
+      require it.replace 'npm://', ''
+    else
+      require "#{process.cwd()}/#{it}"
 callPluginMethod = (name, args) ->
   for p in plugins
     if p[name]? and (typeof p[name] is 'function')
@@ -32,6 +39,7 @@ transformRenderResult = (content) ->
 
 module.exports =
   registerPlugin: registerPlugin
+  loadPlugins: loadPlugins
   callPluginMethod: callPluginMethod
   loadPost: loadPost
   parsePost: parsePost

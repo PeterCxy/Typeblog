@@ -1,5 +1,5 @@
 {Promise, fs} = require './utils/dependencies'
-{callPluginMethod, loadPost, parsePost, transformExpressApp} = require './plugin/plugin'
+{loadPlugins, callPluginMethod, loadPost, parsePost, transformExpressApp} = require './plugin/plugin'
 express = require 'express'
 {renderIndex, renderPost} = require './template'
 configuration = require './utils/configuration'
@@ -22,6 +22,10 @@ start = ->
       res.sendStatus 404
     else
       promise.then (page) -> res.send page
+
+  # Allow transforming before we set up the wildcard rule
+  transformExpressApp app
+
   app.get '/*', (req, res) ->
     postName = req.params[0]
     if posts[postName]?
@@ -29,8 +33,6 @@ start = ->
         .then (content) -> res.send content
     else
       res.sendStatus 404
-
-  transformExpressApp app
 
   app.listen configuration.config.port, '127.0.0.1', ->
     console.log "Listening on 127.0.0.1:#{configuration.config.port}"
@@ -52,6 +54,7 @@ checkConfig = (config) ->
   if isNaN parseInt config.posts_per_page
     console.error "Invalid number #{config.posts_per_page}"
     return false
+  loadPlugins config
   reloadPosts()
   true
 

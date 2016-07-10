@@ -2,6 +2,9 @@
   "title": "Typeblog",
   "description": "Thoughtcrime does not entail death, thoughtcrime IS death",
   "url": "http://127.0.0.1:2333",
+  "plugins": [
+    "plugins/plugin-example"
+  ],
   "posts": [
     "posts/hello6.md",
     "posts/hello5.md",
