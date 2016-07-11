@@ -5,6 +5,7 @@
   "url": "http://127.0.0.1:2333",
   "plugins": [
     "plugins/plugin-example",
+    "plugins/plugin-example-2",
     "npm://typeblog-highlight",
     "npm://typeblog-markdown"
   ],

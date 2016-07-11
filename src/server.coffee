@@ -50,20 +50,20 @@ start = ->
 
   # Allow transforming before we set up the wildcard rule
   transformExpressApp app
+    .then ->
+      app.get '/*', (req, res) ->
+        if not req.path.endsWith '/'
+          res.redirect 301, req.path + '/'
+          return
+        postName = req.params[0].replace(/\/$/, '')
+        if posts[postName]?
+          renderPost posts[postName]
+            .then (content) -> res.send content
+        else
+          res.sendStatus 404
 
-  app.get '/*', (req, res) ->
-    if not req.path.endsWith '/'
-      res.redirect 301, req.path + '/'
-      return
-    postName = req.params[0].replace(/\/$/, '')
-    if posts[postName]?
-      renderPost posts[postName]
-        .then (content) -> res.send content
-    else
-      res.sendStatus 404
-
-  app.listen configuration.config.port, '127.0.0.1', ->
-    console.log "Listening on 127.0.0.1:#{configuration.config.port}"
+      app.listen configuration.config.port, '127.0.0.1', ->
+        console.log "Listening on 127.0.0.1:#{configuration.config.port}"
 
 checkConfig = (config) ->
   if not (config.title? and config.url? and config.description?)
