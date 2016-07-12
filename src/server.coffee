@@ -13,26 +13,42 @@ postsArr = []
 postsByTags = {}
 feed = null
 
+# Cache the rendering results
+cache = {}
+cached = (fn) -> (req, res) ->
+  if req.method isnt 'GET'
+    fn req, res # We do not cache non-GET requests
+  else if cache[req.path]?
+    res.send cache[req.path] # Cache hit!
+  else
+    _send = res.send.bind res
+    res.send = (body) -> # We only cache bodies sent by the send() method
+      cache[req.path] = body
+      _send body
+    fn req, res
+
+clearCache = -> cache = {}
+
 start = ->
   return if not checkConfig configuration.config
   app = express()
   app.use '/assets', express.static 'template/assets'
-  app.get '/', (req, res) ->
+  app.get '/', cached (req, res) ->
     renderIndex postsArr, 0
       .then (index) -> res.send index
-  app.get '/page/:id(\\d+)', (req, res) ->
+  app.get '/page/:id(\\d+)', cached (req, res) ->
     promise = renderIndex postsArr, parseInt req.params.id
     if not promise?
       res.sendStatus 404
     else
       promise.then (page) -> res.send page
-  app.get '/tag/:name', (req, res) ->
+  app.get '/tag/:name', cached (req, res) ->
     if not postsByTags[req.params.name]?
       res.sendStatus 404
     else
       renderIndex postsByTags[req.params.name], 0, "/tag/#{req.params.name}/"
         .then (index) -> res.send index
-  app.get '/tag/:name/page/:id(\\d+)', (req, res) ->
+  app.get '/tag/:name/page/:id(\\d+)', cached (req, res) ->
     if not postsByTags[req.params.name]?
       res.sendStatus 404
     else
@@ -41,7 +57,7 @@ start = ->
         res.sendStatus 404
       else
         promise.then (page) -> res.send page
-  app.get '/rss/', (req, res) ->
+  app.get '/rss/', cached (req, res) ->
     if feed?
       res.set('Content-Type', 'application/rss+xml')
       res.send feed.xml indent: true
@@ -51,7 +67,7 @@ start = ->
   # Allow transforming before we set up the wildcard rule
   transformExpressApp app
     .then ->
-      app.get '/*', (req, res) ->
+      app.get '/*', cached (req, res) ->
         if not req.path.endsWith '/'
           res.redirect 301, req.path + '/'
           return
@@ -127,6 +143,7 @@ reloadPosts = ->
         description: it.content
         date: it.date
         url: configuration.config.url + "/" + it.url
+  .then -> clearCache()
   .catch (e) ->
     console.error e
     process.exit 1
